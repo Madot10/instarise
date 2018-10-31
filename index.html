@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Prueba de IG</title>
+	<script src="js/instafeed.min.js"></script>
+	<script src="js/instauth.min.js"></script>
+
+
+</head>
+
+<body>
+	<div id="instafeed"></div>
+	<br>
+	<div id="posts"></div>
+
+	<script type="text/javascript">
+
+		function getDataIG() {
+			var feed = new Instafeed({
+				get: 'user',
+				clientId: 'b7f722dc3028494bb5323dc6bd84d328',
+				accessToken: '6918404828.b7f722d.4a743ca362a34f5482b310359894bca8',
+				userId: '6918404828',
+				success: function (data) {
+					genButtonsWeek(data);
+					console.log(data);
+				},
+				//template: '<a class="animation" href="{{link}}"><img src="{{image}}" /><p>{{model.caption.text}}</p></a>'
+				template: ''
+			});
+			feed.run();
+		}
+
+		function startOfWeek(date) {
+			var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+			return new Date(date.setDate(diff));
+		}
+
+		function getMes(num) {
+			switch (num + 1) {
+				case 1:
+					return 'Enero';
+				case 2:
+					return 'Febrero';
+				case 3:
+					return 'Marzo';
+				case 4:
+					return 'Abril';
+				case 5:
+					return 'Mayo';
+				case 6:
+					return 'Junio';
+				case 7:
+					return 'Julio';
+				case 8:
+					return 'Agosto';
+				case 9:
+					return 'Septiembre';
+				case 10:
+					return 'Octubre';
+				case 11:
+					return 'Noviembre';
+				case 12:
+					return 'Diciembre';
+			}
+		}
+
+		function genTag(time) {
+			let tag = '';
+			if (time.getDate() > 9) {
+				tag += time.getDate();
+			} else {
+				tag += '0' + time.getDate();
+			}
+
+			tag += getMes(time.getMonth()).slice(0, 3);
+			return tag;
+		}
+
+		function showPostByDay(dayTag,data) {
+			console.log('Clicked en ', dayTag);
+			let toshow = [];
+
+			//Buscamos posts en obj ig
+			let posts = data.data;
+			for(let post of posts){
+				for(let tag of post.tags){
+					if(tag.toUpperCase() == dayTag.toUpperCase()){
+						toshow.push(post);
+					}
+				}
+			}
+			//console.log(toshow);
+			//Insert elements
+			let main = document.getElementById('posts');
+			main.innerHTML = '';
+
+			if(toshow.length > 0){
+				for(let post of toshow){
+					main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
+				}
+			}else{
+				main.innerHTML += '<h2><b>Por definir</b></h2>'
+			}
+		}
+
+		function genButtonsWeek(data) {
+			let aux = startOfWeek(new Date());
+			let container = document.getElementById('instafeed');
+
+			for (i = 0; i < 6; i++) {
+				aux.setDate(aux.getDate() + 1); //Recorremos la semana
+
+				let btn = document.createElement('button');
+				btn.textContent = aux.getDate() + ' de ' + getMes(aux.getMonth());
+				let strTag = genTag(aux);
+				btn.onclick = function () { showPostByDay(strTag, data) };
+				container.appendChild(btn);
+			}
+		}
+
+		getDataIG();
+		
+
+
+	</script>
+</body>
+
+</html>
