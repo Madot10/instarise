@@ -8,6 +8,33 @@
 	<script src="js/instafeed.min.js"></script>
 	<script src="js/instauth.min.js"></script>
 
+	<style>
+		#posts {
+			display:flex;
+			padding: 12px;
+		}
+
+		.ig-post {
+			max-width: 400px;
+			padding: 8px;
+			background-color: #E5E5E5;
+			box-shadow: 1px 2px 20px 3px #333;
+			margin: 16px;
+		}
+
+		.ig-img {
+			width: 100%;
+		}
+
+		.ig-desc {
+			text-align: justify;
+			height: 200px;
+			white-space: nowrap;
+			-ms-text-overflow: ellipsis;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	</style>
 
 </head>
 
@@ -95,12 +122,28 @@
 			}
 			//console.log(toshow);
 			//Insert elements
-			let main = document.getElementById('posts');
+			let main = document.getElementById('posts'),
+				postCont, image, link, desc; 
 			main.innerHTML = '';
 
 			if(toshow.length > 0){
 				for(let post of toshow){
-					main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
+					postCont = document.createElement('DIV'),
+					image = document.createElement('IMG'),
+					link = document.createElement('A');
+					desc = document.createElement('P');
+					postCont.classList.add('ig-post');
+					image.classList.add('ig-img');
+					desc.classList.add('ig-desc');
+					link.href = post.link;
+					image.src = post.images.standard_resolution.url;
+					desc.innerHTML = post.caption.text;
+					console.log(post);
+					link.insertAdjacentElement('afterbegin', image);
+					postCont.insertAdjacentElement('afterbegin', link);
+					postCont.insertAdjacentElement('beforeend', desc);
+					main.insertAdjacentElement('afterbegin', postCont);
+					// main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
 				}
 			}else{
 				main.innerHTML += '<h2><b>Por definir</b></h2>'
@@ -111,7 +154,7 @@
 			let aux = startOfWeek(new Date());
 			let container = document.getElementById('instafeed');
 
-			for (i = 0; i < 6; i++) {
+			for (i = 0; i <= 6; i++) {
 				aux.setDate(aux.getDate() + 1); //Recorremos la semana
 
 				let btn = document.createElement('button');
