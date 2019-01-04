@@ -12,25 +12,32 @@
 </head>
 
 <body>
+
 	<div id="instafeed"></div>
 	<br>
 	<div id="posts"></div>
 
 	<script type="text/javascript">
+		var feed = new Instafeed({
+			get: 'user',
+			clientId: 'b7f722dc3028494bb5323dc6bd84d328',
+			accessToken: '6918404828.b7f722d.4a743ca362a34f5482b310359894bca8',
+			userId: '6918404828',
+			success: function (data) {
+				genButtonsWeek(data);
+				console.log(data);
+			},
+			//template: '<a class="animation" href="{{link}}"><img src="{{image}}" /><p>{{model.caption.text}}</p></a>'
+			template: '',
+			after: function () {
+				// disable button if no more results to load
+				if (!this.hasNext()) {
+					console.log('No hay mas')
+				}
+			},
+		});
 
 		function getDataIG() {
-			var feed = new Instafeed({
-				get: 'user',
-				clientId: 'b7f722dc3028494bb5323dc6bd84d328',
-				accessToken: '6918404828.b7f722d.4a743ca362a34f5482b310359894bca8',
-				userId: '6918404828',
-				success: function (data) {
-					genButtonsWeek(data);
-					console.log(data);
-				},
-				//template: '<a class="animation" href="{{link}}"><img src="{{image}}" /><p>{{model.caption.text}}</p></a>'
-				template: ''
-			});
 			feed.run();
 		}
 
@@ -80,15 +87,15 @@
 			return tag;
 		}
 
-		function showPostByDay(dayTag,data) {
+		function showPostByDay(dayTag, data) {
 			console.log('Clicked en ', dayTag);
 			let toshow = [];
 
 			//Buscamos posts en obj ig
 			let posts = data.data;
-			for(let post of posts){
-				for(let tag of post.tags){
-					if(tag.toUpperCase() == dayTag.toUpperCase()){
+			for (let post of posts) {
+				for (let tag of post.tags) {
+					if (tag.toUpperCase() == dayTag.toUpperCase()) {
 						toshow.push(post);
 					}
 				}
@@ -98,11 +105,11 @@
 			let main = document.getElementById('posts');
 			main.innerHTML = '';
 
-			if(toshow.length > 0){
-				for(let post of toshow){
+			if (toshow.length > 0) {
+				for (let post of toshow) {
 					main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
 				}
-			}else{
+			} else {
 				main.innerHTML += '<h2><b>Por definir</b></h2>'
 			}
 		}
@@ -123,10 +130,11 @@
 		}
 
 		getDataIG();
-		
+
 
 
 	</script>
+	<button onclick="feed.next()">MORE</button>
 </body>
 
 </html>
