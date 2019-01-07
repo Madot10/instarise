@@ -1,0 +1,153 @@
+<section class="cid-r3xr4CEuUA" id="header2-bh">
+    <div class="container align-center">
+        <div class="row justify-content-md-center">
+            <div class="mbr-white col-md-10">
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2"><span id="imes"></span> - <span id="iano"></span></h1>
+                <div class="mbr-section-btn" id="divBtn">
+                <!--  <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Lunes 17</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Martes 18</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Miércoles 19</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Jueves 20</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Viernes 21</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Sábado 22</a>
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Domingo 23</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+
+
+    function startOfWeek(date) {
+        var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -7 : 0);
+        return new Date(date.setDate(diff));
+    }
+
+    function getMes(num) {
+        switch (num + 1) {
+            case 1:
+                return 'Enero';
+            case 2:
+                return 'Febrero';
+            case 3:
+                return 'Marzo';
+            case 4:
+                return 'Abril';
+            case 5:
+                return 'Mayo';
+            case 6:
+                return 'Junio';
+            case 7:
+                return 'Julio';
+            case 8:
+                return 'Agosto';
+            case 9:
+                return 'Septiembre';
+            case 10:
+                return 'Octubre';
+            case 11:
+                return 'Noviembre';
+            case 12:
+                return 'Diciembre';
+        }
+    }
+
+    function getDia(nd){
+        switch (nd + 1) {
+            case 1:
+                return 'Domingo';
+            case 2:
+                return 'Lunes';
+            case 3:
+                return 'Martes';
+            case 4:
+                return 'Miercoles';
+            case 5:
+                return 'Jueves';
+            case 6:
+                return 'Viernes';
+            case 7:
+                return 'Sabado';
+        }
+    }
+
+    function genTag(time) {
+        let tag = '';
+        if (time.getDate() > 9) {
+            tag += time.getDate();
+        } else {
+            tag += '0' + time.getDate();
+        }
+
+        tag += getMes(time.getMonth()).slice(0, 3);
+        return tag;
+    }
+
+    function showPostByDay(dayTag, data) {
+        console.log('Clicked en ', dayTag);
+        let toshow = [];
+
+        //Buscamos posts en obj ig
+        let posts = data.data;
+        for (let post of posts) {
+            for (let tag of post.tags) {
+                if (tag.toUpperCase() == dayTag.toUpperCase()) {
+                    toshow.push(post);
+                }
+            }
+        }
+        //console.log(toshow);
+        //Insert elements
+        let main = document.getElementById('posts'),
+            postCont, image, link, desc;
+        main.innerHTML = '';
+
+        if (toshow.length > 0) {
+            for (let post of toshow) {
+                postCont = document.createElement('DIV'),
+                    image = document.createElement('IMG'),
+                    link = document.createElement('A');
+                desc = document.createElement('P');
+                postCont.classList.add('ig-post');
+                image.classList.add('ig-img');
+                desc.classList.add('ig-desc');
+                link.href = post.link;
+                image.src = post.images.standard_resolution.url;
+                desc.innerHTML = post.caption.text;
+                console.log(post);
+                link.insertAdjacentElement('afterbegin', image);
+                postCont.insertAdjacentElement('afterbegin', link);
+                postCont.insertAdjacentElement('beforeend', desc);
+                main.insertAdjacentElement('afterbegin', postCont);
+                // main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
+            }
+        } else {
+            main.innerHTML += '<h2><b>Por definir</b></h2>'
+        }
+    }
+
+    function genButtonsWeek(data) {
+        let aux = startOfWeek(new Date());
+        let container = document.getElementById('divBtn');
+
+        for (i = 0; i <= 6; i++) {
+            aux.setDate(aux.getDate() + 1); //Recorremos la semana
+
+            let a = document.createElement('a');
+            a.textContent = getDia(aux.getDay()) + " " + aux.getDate();
+            let strTag = genTag(aux);
+            a.classList.add("btn", "btn-md", "btn-primary", "display-4");
+            a.onclick = function () { showPostByDay(strTag, data) };
+            container.appendChild(a);
+        }
+    }
+    let dat = new Date();
+
+    document.getElementById("imes").innerText = getMes(dat.getMonth());
+    document.getElementById("iano").innerText = dat.getFullYear();
+    genButtonsWeek();
+
+
+
+</script>
