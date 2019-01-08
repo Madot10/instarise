@@ -1,21 +1,50 @@
-<section class="cid-r3xr4CEuUA" id="header2-bh">
+<!--<section class="cid-r3xr4CEuUA" id="header2-bh">
     <div class="container align-center">
         <div class="row justify-content-md-center">
             <div class="mbr-white col-md-10">
-                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2"><span id="imes"></span> - <span id="iano"></span></h1>
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
+                    <span id="imes"></span> -
+                    <span id="iano"></span>
+                </h1>
                 <div class="mbr-section-btn" id="divBtn">
-                <!--  <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Lunes 17</a>
+                    <!--  <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Lunes 17</a>
                     <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Martes 18</a>
                     <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Miércoles 19</a>
                     <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Jueves 20</a>
                     <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Viernes 21</a>
                     <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Sábado 22</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Domingo 23</a> -->
+                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Domingo 23</a>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</section>-->
+
+
+<div class="container">
+    <div class="media-container-row">
+        <div class="mbr-figure" style="width: 200%;">
+            <img src="assets/images/especiales-3863-1014x676.jpg" alt="Mobirise" title="">
+        </div>
+
+        <div class="media-content">
+
+
+            <div class="mbr-section-text mbr-white pb-3 ">
+
+            </div>
+            <div class="mbr-section-btn" id="divBtn">
+                <!--<a class="btn btn-md btn-primary display-4" href="01-de-octubre-2018.html">&nbsp; &nbsp;01 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="02-de-octubre-2018.html">&nbsp; &nbsp;02 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="03-de-octubre-2018.html">&nbsp; &nbsp;03 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="04-de-octubre-2018.html">&nbsp; &nbsp;04 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="05-de-octubre-2018.html">&nbsp; &nbsp;05 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="06-de-octubre-2018.html">&nbsp; &nbsp;06 de Octubre &nbsp;&nbsp;</a>
+                <a class="btn btn-md btn-primary display-4" href="07-de-octubre-2018.html">&nbsp; &nbsp;07 de Octubre &nbsp;&nbsp;</a>-->
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 
 
@@ -53,7 +82,7 @@
         }
     }
 
-    function getDia(nd){
+    function getDia(nd) {
         switch (nd + 1) {
             case 1:
                 return 'Domingo';
@@ -135,7 +164,7 @@
             aux.setDate(aux.getDate() + 1); //Recorremos la semana
 
             let a = document.createElement('a');
-            a.textContent = getDia(aux.getDay()) + " " + aux.getDate();
+            a.textContent = `\xa0 \xa0\xa0${aux.getDate()} de ${getMes(aux.getMonth())} \xa0 \xa0\xa0`;
             let strTag = genTag(aux);
             a.classList.add("btn", "btn-md", "btn-primary", "display-4");
             a.onclick = function () { showPostByDay(strTag, data) };
@@ -144,10 +173,8 @@
     }
     let dat = new Date();
 
-    document.getElementById("imes").innerText = getMes(dat.getMonth());
-    document.getElementById("iano").innerText = dat.getFullYear();
+    //document.getElementById("imes").innerText = getMes(dat.getMonth());
+    //document.getElementById("iano").innerText = dat.getFullYear();
     genButtonsWeek();
-
-
 
 </script>
