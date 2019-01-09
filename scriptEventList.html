@@ -1,0 +1,117 @@
+<style>
+    .cid-r5gji2dpwk {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #ffffff;
+    }
+
+    .cid-r5gji2dpwk .card-img {
+        background-color: #fff;
+    }
+
+    .cid-r5gji2dpwk .card-box {
+        padding: 2rem;
+    }
+
+    .cid-r5gji2dpwk h4 {
+        font-weight: 500;
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    .cid-r5gji2dpwk p {
+        text-align: left;
+    }
+
+    .cid-r5gji2dpwk .mbr-text {
+        color: #1e4581;
+    }
+
+    .cid-r5gji2dpwk .card-wrapper {
+        height: 100%;
+        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+        transition: box-shadow 0.3s;
+    }
+
+    .cid-r5gji2dpwk .card-wrapper:hover {
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s;
+    }
+
+    @media (min-width: 992px) {
+        .cid-r5gji2dpwk .my-col {
+            flex: 0 0 20%;
+            max-width: 20%;
+            padding: 15px;
+        }
+    }
+</style>
+
+
+
+<section class="features17 cid-r5gji2dpwk" style="padding-top: 0px; padding-bottom: 0px; background-color: #ffffff;">
+    <div class="container-fluid">
+        <div class="media-container-row" id="list">
+
+            <div class="card p-3 col-12 col-md-6 col-lg-3">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <a href="https://www.instagram.com/p/BsRZ0ISn6xf/" target="_blank">
+                            <img src="https://scontent.cdninstagram.com/vp/6e1c135e75401fe494ad91ba7b40984c/5CCBEFE5/t51.2885-15/sh0.08/e35/p640x640/49907192_357282068439380_1767045415405596262_n.jpg?_nc_ht=scontent.cdninstagram.com"
+                                alt="Mobirise" title="">
+                        </a>
+                    </div>
+                    <div class="card-box">
+                       <!--  <h4 class="card-title pb-3 mbr-fonts-style display-5">Celebremos el Día de Reyes
+                            <br>¡Regalando Abrazos!</h4> -->
+                        <p class="mbr-text mbr-fonts-style display-7">Hora: 10:00 am
+                            <br>Lugar: Parque del Este
+                            <br>Ciudad y Estado: #Caracas, Estado #Miranda
+                            <br>Acción: #Solidaridad</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+
+    function genCard(hora, lugar, ciudad, haccion, srcImg, link){
+        let mCard = document.createElement('div');
+        mCard.classList.add("card" ,"p-3", "col-12", "col-md-6", "col-lg-3");
+
+            let bCard = document.createElement('div');
+            bCard.classList.add("card-wrapper");
+
+                let hCard = document.createElement('div');
+                hCard.classList.add("card-img");
+
+                    let a = document.createElement('a');
+                    a.setAttribute("href", link);
+                    a.setAttribute("target", "_blank");
+
+                        let iCard = document.createElement('img');
+                        iCard.setAttribute("src", srcImg);
+                        iCard.setAttribute("alt", "Evento");
+
+                    a.appendChild(iCard);
+                hCard.appendChild(a);
+
+            bCard.appendChild(hCard);
+
+                let tCard = document.createElement('div');
+                tCard.classList.add("card-box");
+
+                let p = document.createElement('p');
+                p.classList.add("mbr-text", "mbr-fonts-style", "display-7");
+                p.innerHTML = `Hora: ${hora} <br> Lugar: ${lugar} <br> Ciudad y Estado: ${ciudad} <br> Acción: ${haccion}`;
+
+                tCard.appendChild(p);
+                
+            bCard.appendChild(tCard);
+
+    }
+
+</script>
