@@ -50,10 +50,10 @@
 
 
 <section class="features17 cid-r5gji2dpwk" style="padding-top: 0px; padding-bottom: 0px; background-color: #ffffff;">
-    <div class="container-fluid">
-        <div class="media-container-row" id="list">
+    <div class="container-fluid" id="main">
+        <div class="media-container-row list">
 
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
+           <!--  <div class="card p-3 col-12 col-md-6 col-lg-3">
                 <div class="card-wrapper">
                     <div class="card-img">
                         <a href="https://www.instagram.com/p/BsRZ0ISn6xf/" target="_blank">
@@ -62,56 +62,101 @@
                         </a>
                     </div>
                     <div class="card-box">
-                       <!--  <h4 class="card-title pb-3 mbr-fonts-style display-5">Celebremos el Día de Reyes
-                            <br>¡Regalando Abrazos!</h4> -->
+                          <h4 class="card-title pb-3 mbr-fonts-style display-5">Celebremos el Día de Reyes
+                            <br>¡Regalando Abrazos!</h4> 
                         <p class="mbr-text mbr-fonts-style display-7">Hora: 10:00 am
                             <br>Lugar: Parque del Este
                             <br>Ciudad y Estado: #Caracas, Estado #Miranda
                             <br>Acción: #Solidaridad</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>
 </section>
 
 <script>
+    let cont = 0;
+    let line = 0
 
-    function genCard(hora, lugar, ciudad, haccion, srcImg, link){
+    function genCard(hora, lugar, ciudad, haccion, srcImg, link) {
         let mCard = document.createElement('div');
-        mCard.classList.add("card" ,"p-3", "col-12", "col-md-6", "col-lg-3");
+        mCard.classList.add("card", "p-3", "col-12", "col-md-6", "col-lg-3");
 
-            let bCard = document.createElement('div');
-            bCard.classList.add("card-wrapper");
+        let bCard = document.createElement('div');
+        bCard.classList.add("card-wrapper");
 
-                let hCard = document.createElement('div');
-                hCard.classList.add("card-img");
+        let hCard = document.createElement('div');
+        hCard.classList.add("card-img");
 
-                    let a = document.createElement('a');
-                    a.setAttribute("href", link);
-                    a.setAttribute("target", "_blank");
+        let a = document.createElement('a');
+        a.setAttribute("href", link);
+        a.setAttribute("target", "_blank");
 
-                        let iCard = document.createElement('img');
-                        iCard.setAttribute("src", srcImg);
-                        iCard.setAttribute("alt", "Evento");
+        let iCard = document.createElement('img');
+        iCard.setAttribute("src", srcImg);
+        iCard.setAttribute("alt", "Evento");
 
-                    a.appendChild(iCard);
-                hCard.appendChild(a);
+        a.appendChild(iCard);
+        hCard.appendChild(a);
 
-            bCard.appendChild(hCard);
+        bCard.appendChild(hCard);
 
-                let tCard = document.createElement('div');
-                tCard.classList.add("card-box");
+        let tCard = document.createElement('div');
+        tCard.classList.add("card-box");
 
-                let p = document.createElement('p');
-                p.classList.add("mbr-text", "mbr-fonts-style", "display-7");
-                p.innerHTML = `Hora: ${hora} <br> Lugar: ${lugar} <br> Ciudad y Estado: ${ciudad} <br> Acción: ${haccion}`;
+        let p = document.createElement('p');
+        p.classList.add("mbr-text", "mbr-fonts-style", "display-7");
+        p.innerHTML = `Hora: ${hora} <br> Lugar: ${lugar} <br> Ciudad y Estado: ${ciudad} <br> Acción: ${haccion}`;
 
-                tCard.appendChild(p);
-                
-            bCard.appendChild(tCard);
+        tCard.appendChild(p);
 
+        bCard.appendChild(tCard);
+
+        mCard.appendChild(bCard);
+
+        return mCard;
     }
+
+    function genLista(data){
+        let dimg;
+        let mainList = document.getElementsByClassName("list")[line];
+        
+
+        console.log(cont, data);
+        for(i = 0; i < data.length; i++){
+            //Cada post
+            dimg = JSON.parse(data[i].urls);
+            if(cont >= 4){
+                //nueva linea
+                console.log("run");
+                let nmain = document.createElement('div');
+                nmain.classList.add("media-container-row", "list");
+                document.getElementById('main').appendChild(nmain);
+
+                mainList = nmain;
+                line++;
+                cont = 0;
+            }
+            mainList.appendChild(genCard("9:99am", "Algun", "Alguna", "#osea", dimg.low_resolution.url, data[i].pub_url));
+            cont++;
+        }
+    }
+
+    function getDataDia(fecha) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `publicaciones.php?fecha=${fecha}`, true);
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200 && xhr.status != 403) {
+                //console.log("datos", xhr.response);
+                genLista(JSON.parse(xhr.response));
+            }
+        }
+    }
+
+    
 
 </script>
