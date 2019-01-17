@@ -51,35 +51,57 @@
 
 <section class="features17 cid-r5gji2dpwk" style="padding-top: 0px; padding-bottom: 0px; background-color: #ffffff;">
     <div class="container-fluid" id="main">
-        <div class="media-container-row list">
 
-           <!--  <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <a href="https://www.instagram.com/p/BsRZ0ISn6xf/" target="_blank">
-                            <img src="https://scontent.cdninstagram.com/vp/6e1c135e75401fe494ad91ba7b40984c/5CCBEFE5/t51.2885-15/sh0.08/e35/p640x640/49907192_357282068439380_1767045415405596262_n.jpg?_nc_ht=scontent.cdninstagram.com"
-                                alt="Mobirise" title="">
-                        </a>
-                    </div>
-                    <div class="card-box">
-                          <h4 class="card-title pb-3 mbr-fonts-style display-5">Celebremos el Día de Reyes
-                            <br>¡Regalando Abrazos!</h4> 
-                        <p class="mbr-text mbr-fonts-style display-7">Hora: 10:00 am
-                            <br>Lugar: Parque del Este
-                            <br>Ciudad y Estado: #Caracas, Estado #Miranda
-                            <br>Acción: #Solidaridad</p>
-                    </div>
-                </div>
-            </div> -->
-
-        </div>
     </div>
 </section>
 
 <script>
     let cont = 0;
     let line = 0
+	
+	//Version toda descripcion
+	/*
+	 function genCard(desc, srcImg, link) {
+        let mCard = document.createElement('div');
+        mCard.classList.add("card", "p-3", "col-12", "col-md-6", "col-lg-3");
 
+        let bCard = document.createElement('div');
+        bCard.classList.add("card-wrapper");
+
+        let hCard = document.createElement('div');
+        hCard.classList.add("card-img");
+
+        let a = document.createElement('a');
+        a.setAttribute("href", link);
+        a.setAttribute("target", "_blank");
+
+        let iCard = document.createElement('img');
+        iCard.setAttribute("src", srcImg);
+        iCard.setAttribute("alt", "Evento");
+
+        a.appendChild(iCard);
+        hCard.appendChild(a);
+
+        bCard.appendChild(hCard);
+
+        let tCard = document.createElement('div');
+        tCard.classList.add("card-box");
+
+        let p = document.createElement('p');
+        p.classList.add("mbr-text", "mbr-fonts-style", "display-7");
+        p.innerHTML = `${desc}`;
+
+        tCard.appendChild(p);
+
+        bCard.appendChild(tCard);
+
+        mCard.appendChild(bCard);
+
+        return mCard;
+    }
+	*/
+	
+	//Version cada element
     function genCard(hora, lugar, ciudad, haccion, srcImg, link) {
         let mCard = document.createElement('div');
         mCard.classList.add("card", "p-3", "col-12", "col-md-6", "col-lg-3");
@@ -119,29 +141,46 @@
         return mCard;
     }
 
-    function genLista(data){
-        let dimg;
-        let mainList = document.getElementsByClassName("list")[line];
-        
+    function newRow() {
+        let nmain = document.createElement('div');
+        nmain.classList.add("media-container-row", "list");
+        return nmain;
+    }
 
-        console.log(cont, data);
-        for(i = 0; i < data.length; i++){
-            //Cada post
-            dimg = JSON.parse(data[i].urls);
-            if(cont >= 4){
-                //nueva linea
-                console.log("run");
-                let nmain = document.createElement('div');
-                nmain.classList.add("media-container-row", "list");
-                document.getElementById('main').appendChild(nmain);
+    function genLista(data) {
+        if (data) {
+            //Si hay json data
+            let dimg;
+            let mainList = newRow();
+            document.getElementById('main').appendChild(mainList);
 
-                mainList = nmain;
-                line++;
-                cont = 0;
+            //console.log(cont, data);
+            for (i = 0; i < data.length; i++) {
+                //Cada post
+                dimg = JSON.parse(data[i].urls);
+                if (cont >= 4) {
+                    //nueva linea
+                    //console.log("run");
+                    let nmain = newRow();
+                    document.getElementById('main').appendChild(nmain);
+
+                    mainList = nmain;
+                    line++;
+                    cont = 0;
+                }
+                let datos = data[i].descripcion.split(/\s+/);
+				// mainList.appendChild(genCard(data[i].descripcion, `${datos[0]}`, dimg.low_resolution.url, data[i].pub_url));
+                //1 hora 2 am/pm 3Lugar 4Ciudad 5Estado 6#
+                mainList.appendChild(genCard(`${datos[1]} ${datos[2]}`, `${datos[3]}`, `${datos[4]} ${datos[5]}`,  `${datos[0]}`, dimg.low_resolution.url, data[i].pub_url));
+                cont++;
             }
-            mainList.appendChild(genCard("9:99am", "Algun", "Alguna", "#osea", dimg.low_resolution.url, data[i].pub_url));
-            cont++;
+        }else{
+            //No hay eventos ese dia
+            cont = 0;
+            line = 0;
+            document.getElementById('main').innerHTML += '<h2 class="align-center mbr-bold mbr-white pb-3 mbr-fonts-style display-2" style="color: #1e4581;"><br><br>Por Definir</h2>'
         }
+
     }
 
     function getDataDia(fecha) {
@@ -151,12 +190,22 @@
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200 && xhr.status != 403) {
-                //console.log("datos", xhr.response);
-                genLista(JSON.parse(xhr.response));
+               // console.log("datos", xhr.response);
+                if (xhr.response != "Ocurrio un error procesando la solicitud") {
+                    cont = 0;
+                    line = 0;
+                    genLista(JSON.parse(xhr.response));
+                } else {
+                    genLista(null);
+                }
+
             }
         }
     }
 
-    
+    function clearList() {
+        document.getElementById('main').innerHTML = "";
+    }
+
 
 </script>

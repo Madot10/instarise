@@ -1,26 +1,3 @@
-<!--<section class="cid-r3xr4CEuUA" id="header2-bh">
-    <div class="container align-center">
-        <div class="row justify-content-md-center">
-            <div class="mbr-white col-md-10">
-                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-2">
-                    <span id="imes"></span> -
-                    <span id="iano"></span>
-                </h1>
-                <div class="mbr-section-btn" id="divBtn">
-                    <!--  <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Lunes 17</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Martes 18</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Miércoles 19</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Jueves 20</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Viernes 21</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Sábado 22</a>
-                    <a class="btn btn-md btn-primary display-4" href="https://mobirise.com" data-mce-href="https://mobirise.com">Domingo 23</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
-
-
 <div class="container">
     <div class="media-container-row">
         <div class="mbr-figure" style="width: 200%; padding-right: 4rem;">
@@ -34,13 +11,7 @@
 
             </div>
             <div class="mbr-section-btn" id="divBtn">
-                <!--<a class="btn btn-md btn-primary display-4" href="01-de-octubre-2018.html">&nbsp; &nbsp;01 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="02-de-octubre-2018.html">&nbsp; &nbsp;02 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="03-de-octubre-2018.html">&nbsp; &nbsp;03 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="04-de-octubre-2018.html">&nbsp; &nbsp;04 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="05-de-octubre-2018.html">&nbsp; &nbsp;05 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="06-de-octubre-2018.html">&nbsp; &nbsp;06 de Octubre &nbsp;&nbsp;</a>
-                <a class="btn btn-md btn-primary display-4" href="07-de-octubre-2018.html">&nbsp; &nbsp;07 de Octubre &nbsp;&nbsp;</a>-->
+               
             </div>
         </div>
     </div>
@@ -113,49 +84,7 @@
         return tag;
     }
 
-    function showPostByDay(dayTag, data) {
-        console.log('Clicked en ', dayTag);
-        let toshow = [];
-
-        //Buscamos posts en obj ig
-        let posts = data.data;
-        for (let post of posts) {
-            for (let tag of post.tags) {
-                if (tag.toUpperCase() == dayTag.toUpperCase()) {
-                    toshow.push(post);
-                }
-            }
-        }
-        //console.log(toshow);
-        //Insert elements
-        let main = document.getElementById('posts'),
-            postCont, image, link, desc;
-        main.innerHTML = '';
-
-        if (toshow.length > 0) {
-            for (let post of toshow) {
-                postCont = document.createElement('DIV'),
-                    image = document.createElement('IMG'),
-                    link = document.createElement('A');
-                desc = document.createElement('P');
-                postCont.classList.add('ig-post');
-                image.classList.add('ig-img');
-                desc.classList.add('ig-desc');
-                link.href = post.link;
-                image.src = post.images.standard_resolution.url;
-                desc.innerHTML = post.caption.text;
-                console.log(post);
-                link.insertAdjacentElement('afterbegin', image);
-                postCont.insertAdjacentElement('afterbegin', link);
-                postCont.insertAdjacentElement('beforeend', desc);
-                main.insertAdjacentElement('afterbegin', postCont);
-                // main.innerHTML += `<div width="${post.images.thumbnail.width}px" ><a href="${post.link}"><img src="${post.images.thumbnail.url}" /></a><p>${post.caption.text}</p></div>`;
-            }
-        } else {
-            main.innerHTML += '<h2><b>Por definir</b></h2>'
-        }
-    }
-
+    
     function genButtonsWeek(data) {
         let aux = startOfWeek(new Date());
         let container = document.getElementById('divBtn');
@@ -166,12 +95,19 @@
             let a = document.createElement('a');
             a.textContent = `\xa0 \xa0\xa0${aux.getDate()} de ${getMes(aux.getMonth())} \xa0 \xa0\xa0`;
             let strTag = genTag(aux);
+
             a.classList.add("btn", "btn-md", "btn-primary", "display-4");
-            a.onclick = function () { showPostByDay(strTag, data) };
+            a.setAttribute("href", "#main");
+            let txt = `${aux.getFullYear()}-${aux.getMonth() + 1}-${aux.getDate()}`;
+
+            a.onclick = function () {
+                clearList();
+                getDataDia(txt);
+            };
             container.appendChild(a);
         }
     }
-    let dat = new Date();
+    //let dat = new Date();
 
     //document.getElementById("imes").innerText = getMes(dat.getMonth());
     //document.getElementById("iano").innerText = dat.getFullYear();
